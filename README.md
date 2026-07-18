@@ -2,7 +2,7 @@
 
 > Automated sweepstakes entry submission for Publishers Clearing House (PCH) using Selenium WebDriver in a containerized Selenium Grid environment.
 
-![Architecture Diagram](docs/architecture_diagram.png)
+![Architecture Diagram](/architecture_diagram.png)
 
 ## Table of Contents
 
