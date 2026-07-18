@@ -1,0 +1,38 @@
+[Unit]
+Description=Selenium Grid Node - Chrome (Podman)
+Wants=network-online.target
+After=network-online.target
+RequiresMountsFor=%t/containers
+
+[Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
+Restart=on-failure
+TimeoutStopSec=70
+ExecStart=/usr/bin/podman run \
+        --cidfile=%t/%n.ctr-id \
+        --cgroups=no-conmon \
+        --rm \
+        --sdnotify=conmon \
+        -d \
+        --replace \
+        --name selenium-node1 \
+        -e SE_EVENT_BUS_HOST=selenium-hub \
+        -e SE_EVENT_BUS_PUBLISH_PORT=4442 \
+        -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 \
+        --network selenium-grid \
+        --shm-size=1g \
+        selenium/node-chrome:latest
+ExecStop=/usr/bin/podman stop \
+        --ignore -t 10 \
+        --cidfile=%t/%n.ctr-id
+ExecStopPost=/usr/bin/podman rm \
+        -f \
+        --ignore -t 10 \
+        --cidfile=%t/%n.ctr-id
+MemoryLimit=1536M
+MemorySoftLimit=1024M
+Type=notify
+NotifyAccess=all
+
+[Install]
+WantedBy=default.target

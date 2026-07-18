@@ -1,0 +1,8 @@
+selenium==4.35.0
+requests
+beautifulsoup4
+setuptools
+2captcha-python
+undetected-chromedriver
+undetected-geckodriver
+webdriver-manager
